@@ -30,6 +30,12 @@ The goals / steps of this project are the following:
 [image16]: ./output_images/calibration_road_warped.png "Calibration road warped"
 [image17]: ./output_images/straight_lane_overlay_on_curved.png "Overlay straight lane on curved road"
 [image18]: ./output_images/warped_lane.png "Warped Lane"
+[image19]: ./output_images/sobel-x.png "Threshold image from Sobel operation along x-axis on the road image"
+[image20]: ./output_images/sobel-y.png "Threshold image from Sobel operation along y-axis on the road image"
+[image21]: ./output_images/sobel-magnitude.png "Threshold image from magnitude of the gradient on the road image"
+[image22]: ./output_images/sobel-direction.png "Threshold image from direction of the gradient on the road image"
+[image23]: ./output_images/s-channel-binary.png "Threshold image from s-channel of the road image"
+[image24]: ./output_images/combined-threshold.png "Combined threshold of above threshold images"
 
 ### Setup
 
@@ -127,3 +133,23 @@ Firstly, I overlapped the corners obtained from straight lane calibration over t
 
 Then I warped the image along the four coordinates. The red lines here (and below) serve as a reference to the straight lanes obtained from straight lane calibration above. 
 ![alt text][image18]
+
+I then performed a series of threshold operations on the warped image.
+
+##### Threshold image obtained by applying Sobel operator along x-axis on the road image
+![alt text][image19]
+
+##### Threshold image obtained by applying Sobel operator along y-axis on the road image
+![alt text][image20]
+
+##### Threshold image from magnitude of the gradient on the road image
+![alt text][image21]
+
+##### Threshold image from direction of the gradient on the road image
+![alt text][image22]
+
+##### Threshold image from s-channel of the road image
+![alt text][image23]
+
+##### Combined threshold of above threshold images
+![alt text][image24]
