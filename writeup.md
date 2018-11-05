@@ -277,4 +277,4 @@ def process_image(img):
 ### Running pipeline on project video
 The pipeline performed pretty decently for the project video, other than for 1 second at 40s. But it does't perform well with the Challenge video. I couldn't take care of it because of time constraints. But I'll definitely come back to it later. Here's a link to the video on Youtube.
 
-[![Self Driving Car: Advanced Lane Detection [Udacity Nanodegree]](https://i9.ytimg.com/vi/CetuMkhZMSQ/sddefault.jpg?sqp=CPy0gN8F&rs=AOn4CLDX3oxeEXl4WoIkvGjN51CDJhVqmg&time=1541413525892)](https://i9.ytimg.com/vi/CetuMkhZMSQ/sddefault.jpg?sqp=CPy0gN8F&rs=AOn4CLDX3oxeEXl4WoIkvGjN51CDJhVqmg&time=1541413525892 "Self Driving Car: Advanced Lane Detection [Udacity Nanodegree]")
+<a href="https://www.youtube.com/watch?v=CetuMkhZMSQ" target="self-driving-car-advanced-lane-detection"><img src="https://i9.ytimg.com/vi/CetuMkhZMSQ/sddefault.jpg?sqp=CPy0gN8F&rs=AOn4CLDX3oxeEXl4WoIkvGjN51CDJhVqmg&time=1541413525892"></a>
