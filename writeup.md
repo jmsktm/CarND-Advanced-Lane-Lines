@@ -41,7 +41,7 @@ The goals / steps of this project are the following:
 [image27]: ./output_images/lane-unwarped.png "Unwarped image with lane polyfilled on it"
 [image28]: ./output_images/lane-overlay.png "Lane overlaid on the actual image"
 [image29]: ./output_images/pixels-to-meters.png "Pixels to meters"
-[image30]: ./output_images/text-overlay "Text overlay"
+[image30]: ./output_images/text-overlay.png "Text overlay"
 
 ### Setup
 
@@ -221,7 +221,7 @@ Here's how it finally looks like after overlaying the lane and displaying the la
 ## PIPELINE
 Here's the code for the pipeline, with some comments added to explain each step:  
 
-```
+```python
 def process_image(img):
     # Undistorting the image frame
     undistorted = undistort(img)
