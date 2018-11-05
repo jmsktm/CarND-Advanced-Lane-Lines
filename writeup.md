@@ -41,12 +41,12 @@ The goals / steps of this project are the following:
 [image27]: ./output_images/lane-unwarped.png "Unwarped image with lane polyfilled on it"
 [image28]: ./output_images/lane-overlay.png "Lane overlaid on the actual image"
 [image29]: ./output_images/pixels-to-meters.png "Pixels to meters"
-[image30]: ./output_images/text-overlay "Text overlay"
+[image30]: ./output_images/text-overlay.png "Text overlay"
 
 ### Setup
 
 ##### Link to Jupyter Notebook
-- ![Jupyter notebook][./Advanced_Lane_Lines.ipynb]
+- [Jupyter notebook][https://github.com/jmsktm/CarND-Advanced-Lane-Lines/blob/master/Advanced_Lane_Lines.ipynb]
 - I have reused much of the boilerplate code from quizzes where available, with some tweaks in places.
 
 ### 1. Compute the camera calibration matrix and distortion coefficients given a set of chessboard images.
@@ -221,7 +221,8 @@ Here's how it finally looks like after overlaying the lane and displaying the la
 ## PIPELINE
 Here's the code for the pipeline, with some comments added to explain each step:  
 
-```
+### CODE
+```python
 def process_image(img):
     # Undistorting the image frame
     undistorted = undistort(img)
@@ -273,3 +274,7 @@ def process_image(img):
     return overlay
 ```
 
+### Running pipeline on project video
+The pipeline performed pretty decently for the project video, other than for 1 second at 40s. But it does't perform well with the Challenge video. I couldn't take care of it because of time constraints. But I'll definitely come back to it later. Here's a link to the video on Youtube.
+
+[Advanced Lane Detection](https://i9.ytimg.com/vi/CetuMkhZMSQ/sddefault.jpg?sqp=CPy0gN8F&rs=AOn4CLDX3oxeEXl4WoIkvGjN51CDJhVqmg&time=1541413525892)
