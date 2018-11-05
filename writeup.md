@@ -36,6 +36,10 @@ The goals / steps of this project are the following:
 [image22]: ./output_images/sobel-direction.png "Threshold image from direction of the gradient on the road image"
 [image23]: ./output_images/s-channel-binary.png "Threshold image from s-channel of the road image"
 [image24]: ./output_images/combined-threshold.png "Combined threshold of above threshold images"
+[image25]: ./output_images/sliding-windows.png "Sliding Windows"
+[image26]: ./output_images/lane-warped "A new layer with polyfilled lane on warped image"
+[image27]: ./output_images/sliding-windows.png "Unwarped image with lane polyfilled on it"
+[image28]: ./output_images/lane-overlay.png "Lane overlaid on the actual image"
 
 ### Setup
 
@@ -131,7 +135,8 @@ I calibrated for straight road using the provide image `straight_lines_2.jpg` an
 Firstly, I overlapped the corners obtained from straight lane calibration over the test image.  
 ![alt text][image17]
 
-Then I warped the image along the four coordinates. The red lines here (and below) serve as a reference to the straight lanes obtained from straight lane calibration above. 
+Then I warped the image along the four coordinates. The red lines here (and below) serve as a reference to the straight lanes obtained from straight lane calibration above.  
+
 ![alt text][image18]
 
 I then performed a series of threshold operations on the warped image.
@@ -153,3 +158,22 @@ I then performed a series of threshold operations on the warped image.
 
 ##### Combined threshold of above threshold images
 ![alt text][image24]
+
+We'll be using the combined threshold image for lane detection in the subsequent steps.
+
+### 5. Detect lane pixels and fit to find the lane boundary.
+#### 5.1 Find the lane pixels, and fit polynomial
+
+We are using sliding window approach for lane detection. Here is the result:  
+
+##### Fitted lines with sliding windows
+![alt text][image25]
+
+I have then used the coordinates obtained from sliding windows to polyfill the lane on the warped image.  
+![alt text][image26]
+
+The layer is then unwarped back to the real world perspective.  
+![alt text][image27]
+
+The unwarped layer is then overlaid on top of the real image to get the final image.
+![alt text][image28]
