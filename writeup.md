@@ -37,9 +37,11 @@ The goals / steps of this project are the following:
 [image23]: ./output_images/s-channel-binary.png "Threshold image from s-channel of the road image"
 [image24]: ./output_images/combined-threshold.png "Combined threshold of above threshold images"
 [image25]: ./output_images/sliding-windows.png "Sliding Windows"
-[image26]: ./output_images/lane-warped "A new layer with polyfilled lane on warped image"
-[image27]: ./output_images/sliding-windows.png "Unwarped image with lane polyfilled on it"
+[image26]: ./output_images/lane-warped.png "A new layer with polyfilled lane on warped image"
+[image27]: ./output_images/lane-unwarped.png "Unwarped image with lane polyfilled on it"
 [image28]: ./output_images/lane-overlay.png "Lane overlaid on the actual image"
+[image29]: ./output_images/pixels-to-meters.png "Pixels to meters"
+[image30]: ./output_images/text-overlay "Text overlay"
 
 ### Setup
 
@@ -177,3 +179,97 @@ The layer is then unwarped back to the real world perspective.
 
 The unwarped layer is then overlaid on top of the real image to get the final image.
 ![alt text][image28]
+
+### 6. Determine the curvature of the lane and vehicle position with respect to center.
+#### 6.1 Determine lane curvature
+Here, I am simply using the formula from the lesson to calculate lane radius based from the position (y-coordinate on the image), and the coefficients of the second-degree curves representing the lanes.
+
+#### 6.2. Determining conversions in x and y from pixels space to meters
+Here, we are using the unwarped lane image for the straight road as a reference to map dimensions from pixels to meters.  
+
+![alt text][image29]
+
+**Here are some calculations:**
+- Dashed line width (in px): 81
+- Standard length of dashed line (in meters): 3.0
+- meters per pixel in y dimension:  0.037037037037037035
+- Lane width in px: 720.0
+- Standard width of lanes (in meters): 3.7
+- meters per pixel in x dimension:  0.005138888888888889
+
+Hence,  
+- meters/pixel along x-axis: 0.0051  
+- meters/pixel along y-axis: 0.0370
+
+#### 6.3 Determining 1. lane curvature in pixels and meters  2. vehicle offset
+Here, I have written a few helper functions for calculation of lane curvature and vehicle offset in pixels, and to convert it to meters scale.  
+
+For calculation of offset, I have compared the offset at the bottom of the images between:  
+1. The center of the lane obtained from the image used to find end coordinates of a straight road.
+2. The mid-point of the detected lane.
+
+I then used the multiplication factor (meters/pixel along x-axis: 0.0051) to find the offset in meters.
+
+#### 7. Warp the detected lane boundaries back onto the original image.
+I have done it in step #6
+
+#### 6. Output visual display of the lane boundaries and numerical estimation of lane curvature and vehicle position.
+Here's how it finally looks like after overlaying the lane and displaying the lane curvature and vehicle offset from the center of the road:  
+
+![alt text][image30]
+
+## PIPELINE
+Here's the code for the pipeline, with some comments added to explain each step:  
+
+```
+def process_image(img):
+    # Undistorting the image frame
+    undistorted = undistort(img)
+
+    # Warping the image based on the four corners obtained beforehand.
+    pts = endpoints_for_perspective_transform()
+    warped, M, dst = warp(undistorted, pts)
+
+    # Thresholding on the warped image. The function get_thresholds() returns multiple
+    # thresholds:
+    # 1. Gradient along x-axis
+    # 2. Gradient along y-axis
+    # 3. Magnitude of the gradients
+    # 4. Direction of the gradients
+    # 5. Threshold from S-channel of HLS
+    # 6. Combined threshold from the above.
+    gradx, grady, mag_binary, dir_binary, s_channel_binary, combined = get_thresholds(warped)
+    binary_warped = combined
+    
+    # Curve fitting on the binary, warped image frame.
+    # out_img = image with the output of curve fitting
+    # left_fit = coefficients of second degree polynomial obtained from curve fitting for the left lane
+    # right_fit = coefficients of second degree polynomial obtained from curve fitting for the right lane
+    # left_fitx = points on the second degree curve obtained from curve fitting for the left lane
+    # right_fitx = points on the second degree curve obtained from curve fitting for the right lane
+    out_img, left_fit, right_fit, left_fitx, right_fitx, ploty = fit_polynomial(binary_warped)
+    
+    # Create a blank layer with the lane polyfilled w.r.t. the warped image.
+    layer = np.zeros_like(undistorted)
+    coordinates_left = np.vstack((left_fitx.astype(int), ploty.astype(int))).T
+    coordinates_right = np.flipud(np.vstack((right_fitx.astype(int), ploty.astype(int))).T)
+    coordinates = np.concatenate((coordinates_left, coordinates_right), axis=0)
+    cv2.fillPoly(layer, np.array([ coordinates ]), color=(0, 255, 0))
+    
+    # Unwarping the above image (polyfilled lane) back to real-world perspective.
+    unwarped, M, dst = unwarp(layer, pts)
+
+    # Overlay the polyfilled layer on the original image.
+    overlay = weighted_img(unwarped, undistorted, 0.95, 0.6, 0)
+    
+    # Overlay text on the image frame
+    text = get_overlay_text(binary_warped, left_fit, right_fit)
+    overlay_text(overlay, text)
+    
+    car_offset_text = find_car_offset_text(img, left_fit, right_fit)
+    overlay_text(overlay, car_offset_text, pos=(50, 100))
+
+    # Return the composite image (with the polyfilled image overlaid on original image)
+    return overlay
+```
+
