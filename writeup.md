@@ -20,12 +20,16 @@ The goals / steps of this project are the following:
 [image6]: ./output_images/h-channel.jpg "H-Channel"
 [image7]: ./output_images/l-channel.jpg "L-Channel"
 [image8]: ./output_images/s-channel.jpg "S-Channel"
-[image9]: ./output_images/threshold-x.jpg "Sobel operation on image over x-axis"
+[image9]: ./output_images/threshold-x.png "Sobel operation on image over x-axis"
 [image10]: ./output_images/threshold-y.png "Sobel operation on image over y-axis"
 [image11]: ./output_images/threshold-magnitude.png "Magnitude of the gradient"
 [image12]: ./output_images/threshold-direction.png "Direction of the gradient"
 [image13]: ./output_images/threshold-s-channel.png "Threshold of the s-channel image"
 [image14]: ./output_images/threshold-combined.png "Combined threshold"
+[image15]: ./output_images/straight_lane_calibration.png "Straight lane calibration"
+[image16]: ./output_images/calibration_road_warped.png "Calibration road warped"
+[image17]: ./output_images/straight_lane_overlay_on_curved.png "Overlay straight lane on curved road"
+[image18]: ./output_images/warped_lane.png "Warped Lane"
 
 ### Setup
 
@@ -93,3 +97,33 @@ We see that the lanes are more prominent on the S-channel. In the sections below
 
 ##### Combined threshold
 ![alt text][image14]
+
+In the quizzes, the combined threshold was generated as:  
+``` combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1))] = 1 ```
+
+However, I observed that the s-channel provided a pretty good and strong signal about the lanes. So, I have factored that in during the generation of combined threshold.
+``` combined[((gradx == 1) & (grady == 1)) | ((mag_binary == 1) & (dir_binary == 1)) | (s_channel_binary == 1)] = 1 ```
+
+### 4. Apply a perspective transform to rectify binary image ("birds-eye view").
+#### 4.1 Finding street endpoints from a straight road for perspective transform
+I calibrated for straight road using the provide image `straight_lines_2.jpg` and traced lines over the lanes to obtain the endpoints for use in subsequent steps.
+
+| Corner        | Source coordinate                   |
+|---------------|-------------------------------------|
+| Top Left      | (595, 450)                          |
+| Top Right     | (690, 450)                          |
+| Bottom Right  | (1115, 720)                         |
+| Bottom Left   | (216, 720)                          |
+
+##### Calibration image with lane markers
+![alt text][image15]
+
+##### Perspective transformation of the image over the four endpoints (obtained from above)
+![alt text][image16]
+
+#### 4.2 Using the four coordinates from above to perform perspective image on other road image
+Firstly, I overlapped the corners obtained from straight lane calibration over the test image.  
+![alt text][image17]
+
+Then I warped the image along the four coordinates. The red lines here (and below) serve as a reference to the straight lanes obtained from straight lane calibration above. 
+![alt text][image18]
