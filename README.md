@@ -277,8 +277,6 @@ def process_image(img):
 ### Running pipeline on project video
 Here is the link to the Youtube video generated using the above pipeline. Click on the image to play video.
 
-<a href="https://www.youtube.com/watch?v=CetuMkhZMSQ" target="self-driving-car-advanced-lane-detection"><img src="https://i9.ytimg.com/vi/CetuMkhZMSQ/sddefault.jpg?sqp=CPy0gN8F&rs=AOn4CLDX3oxeEXl4WoIkvGjN51CDJhVqmg&time=1541413525892"></a>
-
 [![Watch the video](https://i.ytimg.com/vi/0yXWgO947mI/hqdefault.jpg)](https://www.youtube.com/watch?v=0yXWgO947mI&feature=youtu.be)
 
 ### Discussion
