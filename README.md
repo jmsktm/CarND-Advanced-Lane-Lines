@@ -279,6 +279,8 @@ Here is the link to the Youtube video generated using the above pipeline. Click 
 
 <a href="https://www.youtube.com/watch?v=CetuMkhZMSQ" target="self-driving-car-advanced-lane-detection"><img src="https://i9.ytimg.com/vi/CetuMkhZMSQ/sddefault.jpg?sqp=CPy0gN8F&rs=AOn4CLDX3oxeEXl4WoIkvGjN51CDJhVqmg&time=1541413525892"></a>
 
+[![Watch the video](https://i.ytimg.com/vi/0yXWgO947mI/hqdefault.jpg)](https://www.youtube.com/watch?v=0yXWgO947mI&feature=youtu.be)
+
 ### Discussion
 The pipeline performed pretty decently for the project video, other than for 1 second at 40s. But it does't perform well with the Challenge video. I couldn't take care of it because of time constraints.
 - I would make changes to ignore sudden changes over short durations. If the change is persistent over longer than some specified duration (say, a couple of seconds), I would display some warning message.
